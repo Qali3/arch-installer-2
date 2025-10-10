@@ -23,9 +23,13 @@ while [ $PASSWORD != $PASSWORD2 ]; do
 	clear
 done
 
-DISK='/dev/nvme0n1'
-PART1='/dev/nvme0n1p1'
-PART2='/dev/nvme0n1p2'
+#DISK='/dev/nvme0n1'
+#PART1='/dev/nvme0n1p1'
+#PART2='/dev/nvme0n1p2'
+
+DISK='/dev/sda'
+PART1='/dev/sda1'
+PART2='/dev/sda2'
 
 parted --script $DISK \
 	mklabel gpt \
