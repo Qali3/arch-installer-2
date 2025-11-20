@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 setfont ter-132b
 
@@ -23,13 +23,9 @@ while [ $PASSWORD != $PASSWORD2 ]; do
 	clear
 done
 
-#DISK='/dev/nvme0n1'
-#PART1='/dev/nvme0n1p1'
-#PART2='/dev/nvme0n1p2'
-
-DISK='/dev/sda'
-PART1='/dev/sda1'
-PART2='/dev/sda2'
+DISK='/dev/nvme0n1'
+PART1='/dev/nvme0n1p1'
+PART2='/dev/nvme0n1p2'
 
 parted --script $DISK \
 	mklabel gpt \
@@ -81,8 +77,5 @@ echo "$USERNAME:$PASSWORD" | chpasswd
 echo "root:$PASSWORD" | chpasswd
 echo '%wheel ALL=(ALL:ALL) ALL' >> /etc/sudoers
 
-mkdir /boot/efi
-mv /boot/vmlinuz-linux-zen /boot/initramfs-linux-zen.img /boot/efi
-
-efibootmgr --create --disk $DISK --part 1 --label "Arch Linux" --loader /efi/vmlinuz-linux-zen --unicode "root=PARTUUID=$(blkid -s PARTUUID -o value $PART2) initrd=/efi/initramfs-linux-zen.img"
+efibootmgr --create --disk $DISK --part 1 --label "Arch Linux" --loader /vmlinuz-linux-zen --unicode "root=PARTUUID=$(blkid -s PARTUUID -o value $PART2) initrd=/initramfs-linux-zen.img"
 EOF
